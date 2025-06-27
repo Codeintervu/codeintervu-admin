@@ -9,7 +9,7 @@ export default defineConfig({
     port: 4000, // We can assign a specific port for the admin app
     proxy: {
       "/api": {
-        target: "http://localhost:5000", // Your backend server
+        target: process.env.VITE_API_URL,
         changeOrigin: true,
       },
     },
