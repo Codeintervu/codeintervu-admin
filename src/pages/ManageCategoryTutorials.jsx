@@ -78,7 +78,7 @@ const ManageCategoryTutorials = () => {
       // };
       const body = { title: newTutorialTitle, category: categoryId };
       // await axios.post("/api/tutorials", body, config);
-      await api.post("/api/tutorials", body);
+      await api.post("/tutorials", body);
 
       setSubmitSuccess("Tutorial added successfully!");
       setNewTutorialTitle("");
