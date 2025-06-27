@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
+import api from "../utils/api";
 import {
   FiPlus,
   FiTrash2,
@@ -28,7 +29,8 @@ const ManageCategoryTutorials = () => {
 
       // There isn't a single category fetch endpoint, so we get all and find ours.
       // This is inefficient but works with the current backend.
-      const categoryRes = await axios.get(`/api/categories`);
+      // const categoryRes = await axios.get(`/api/categories`);
+      const categoryRes = await api.get(`/categories`);
       const currentCategory = categoryRes.data.find(
         (c) => c._id === categoryId
       );
@@ -39,9 +41,10 @@ const ManageCategoryTutorials = () => {
       }
 
       // Fetch tutorials for this category
-      const tutorialsRes = await axios.get(
-        `/api/tutorials?category=${categoryId}`
-      );
+      // const tutorialsRes = await axios.get(
+      //   `/api/tutorials?category=${categoryId}`
+      // );
+      const tutorialsRes = await api.get(`/tutorials?category=${categoryId}`);
       setTutorials(tutorialsRes.data);
 
       setLoading(false);
@@ -66,15 +69,16 @@ const ManageCategoryTutorials = () => {
     setSubmitSuccess(null);
 
     try {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
+      // const token = localStorage.getItem("token");
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // };
       const body = { title: newTutorialTitle, category: categoryId };
-      await axios.post("/api/tutorials", body, config);
+      // await axios.post("/api/tutorials", body, config);
+      await api.post("/api/tutorials", body);
 
       setSubmitSuccess("Tutorial added successfully!");
       setNewTutorialTitle("");
@@ -93,9 +97,10 @@ const ManageCategoryTutorials = () => {
   const handleDelete = async (tutorialId) => {
     if (window.confirm("Are you sure you want to delete this tutorial?")) {
       try {
-        const token = localStorage.getItem("token");
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        await axios.delete(`/api/tutorials/${tutorialId}`, config);
+        // const token = localStorage.getItem("token");
+        // const config = { headers: { Authorization: `Bearer ${token}` } };
+        // await axios.delete(`/api/tutorials/${tutorialId}`, config);
+        await api.delete(`/tutorials/${tutorialId}`);
         fetchTutorials(); // Refresh the list
       } catch (err) {
         alert("Failed to delete tutorial.");
