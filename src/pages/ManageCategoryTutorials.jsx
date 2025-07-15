@@ -100,7 +100,7 @@ const ManageCategoryTutorials = () => {
         // const token = localStorage.getItem("token");
         // const config = { headers: { Authorization: `Bearer ${token}` } };
         // await axios.delete(`/api/tutorials/${tutorialId}`, config);
-        await api.delete(`/tutorials/${tutorialId}`);
+        await api.delete(`/tutorials/by-id/${tutorialId}`);
         fetchTutorials(); // Refresh the list
       } catch (err) {
         alert("Failed to delete tutorial.");
@@ -208,7 +208,7 @@ const ManageCategoryTutorials = () => {
                 className="flex justify-between items-center bg-gray-50 p-4 rounded-lg transition-shadow hover:shadow-md"
               >
                 <Link
-                  to={`/tutorials/${tutorial._id}/sections`}
+                  to={`/tutorials/by-id/${tutorial._id}/sections`}
                   className="flex-grow group"
                 >
                   <p className="font-bold text-lg text-eerie-black-2 group-hover:text-selective-yellow transition-colors">

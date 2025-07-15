@@ -55,7 +55,7 @@ const ManageTutorialSections = () => {
   const fetchTutorialDetails = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get(`/tutorials/${tutorialId}`);
+      const { data } = await api.get(`/tutorials/by-id/${tutorialId}`);
       setTutorial(data);
       setLoading(false);
     } catch (err) {
@@ -202,13 +202,13 @@ const ManageTutorialSections = () => {
     try {
       if (editingSectionId) {
         await api.put(
-          `/tutorials/${tutorialId}/sections/${editingSectionId}`,
+          `/tutorials/by-id/${tutorialId}/sections/${editingSectionId}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         setSubmitSuccess("Section updated successfully!");
       } else {
-        await api.post(`/tutorials/${tutorialId}/sections`, formData, {
+        await api.post(`/tutorials/by-id/${tutorialId}/sections`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setSubmitSuccess("Section added successfully!");
@@ -229,7 +229,7 @@ const ManageTutorialSections = () => {
   const handleDeleteSection = async (sectionId) => {
     if (window.confirm("Are you sure you want to delete this section?")) {
       try {
-        await api.delete(`/tutorials/${tutorialId}/sections/${sectionId}`);
+        await api.delete(`/tutorials/by-id/${tutorialId}/sections/${sectionId}`);
         fetchTutorialDetails(); // Refresh sections
       } catch (err) {
         alert("Failed to delete section.");

@@ -5,6 +5,8 @@ import AdminLayout from "./AdminLayout"; // This will be created next
 import Categories from "./pages/Categories";
 import ManageCategoryTutorials from "./pages/ManageCategoryTutorials";
 import ManageTutorialSections from "./pages/ManageTutorialSections";
+import QuizCategories from "./pages/QuizCategories";
+import QuizMCQs from "./pages/QuizMCQs";
 
 function App() {
   return (
@@ -26,9 +28,11 @@ function App() {
             element={<ManageCategoryTutorials />}
           />
           <Route
-            path="tutorials/:tutorialId/sections"
+            path="tutorials/by-id/:tutorialId/sections"
             element={<ManageTutorialSections />}
           />
+          <Route path="/quiz" element={<QuizCategories />} />
+          <Route path="/quiz/:id" element={<QuizMCQs />} />
           {/* The old /tutorials route can be removed or redirected if desired */}
         </Route>
       </Routes>

@@ -106,7 +106,7 @@ const Categories = () => {
       //   },
       // };
       // await axios.delete(`/api/categories/${id}`, config);
-      await api.delete(`/categories/${id}`);
+      await api.delete(`/categories/by-id/${id}`);
       // No need to fetch, the state is already updated
     } catch (err) {
       // If the delete fails, revert the state
@@ -117,6 +117,28 @@ const Categories = () => {
 
   return (
     <div>
+      <div className="flex justify-end mb-4">
+        <Link
+          to="/quiz"
+          className="flex items-center gap-2 bg-selective-yellow text-eerie-black-1 px-5 py-3 rounded-lg hover:bg-yellow-500 font-bold transition-all shadow-md hover:shadow-lg"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16 7a4 4 0 01-8 0m8 0a4 4 0 00-8 0m8 0V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0a4 4 0 01-8 0m8 0v2a2 2 0 01-2 2h-4a2 2 0 01-2-2V7"
+            />
+          </svg>
+          Quiz Section
+        </Link>
+      </div>
       <h1 className="text-4xl font-bold font-league-spartan text-eerie-black-1 mb-8">
         Manage Categories
       </h1>
@@ -124,7 +146,7 @@ const Categories = () => {
       {/* Add Category Form */}
       <div className="bg-white p-8 rounded-xl shadow-md mb-12">
         <h2 className="text-2xl font-bold text-eerie-black-2 mb-6">
-          Add New Category
+          Add New Categories
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
