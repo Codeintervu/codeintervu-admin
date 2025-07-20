@@ -2,6 +2,11 @@ import axios from "axios";
 
 // API base URL configuration
 const getApiBaseUrl = () => {
+  console.log("Environment check:");
+  console.log("- VITE_API_URL:", import.meta.env.VITE_API_URL);
+  console.log("- Hostname:", window.location.hostname);
+  console.log("- NODE_ENV:", import.meta.env.NODE_ENV);
+
   // Use environment variable if available
   if (import.meta.env.VITE_API_URL) {
     console.log("Using VITE_API_URL:", import.meta.env.VITE_API_URL);
