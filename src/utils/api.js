@@ -3,8 +3,8 @@ import axios from "axios";
 // API base URL configuration
 const getApiBaseUrl = () => {
   // Use environment variable if available
-  if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
   }
 
   // Check if we're in production (deployed)
