@@ -2,25 +2,25 @@ import axios from "axios";
 
 // API base URL configuration
 const getApiBaseUrl = () => {
-  // Use environment variable if available (recommended for production)
+  // Use environment variable if available
   if (import.meta.env.VITE_API_BASE_URL) {
     return import.meta.env.VITE_API_BASE_URL;
   }
 
-  // Fallback: Check if we're in production (deployed on admin panel domain)
+  // Check if we're in production (deployed)
   if (
-    window.location.hostname === "admincodeintervu.netlify.app" ||
-    window.location.hostname === "admin.codeintervu.com"
+    window.location.hostname !== "localhost" &&
+    window.location.hostname !== "127.0.0.1"
   ) {
-    return "https://codeintervu-backend.onrender.com";
+    return "https://codeintervu-backend.onrender.com/api";
   }
 
-  // For development, use deployed backend for testing
-  return "https://codeintervu-backend.onrender.com";
+  // For development, use local backend
+  return "http://localhost:5000/api";
 };
 
 const api = axios.create({
-  baseURL: `${getApiBaseUrl()}/api`,
+  baseURL: getApiBaseUrl(),
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",

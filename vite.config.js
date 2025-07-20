@@ -9,8 +9,21 @@ export default defineConfig({
     port: 4000, // We can assign a specific port for the admin app
     proxy: {
       "/api": {
-        target: process.env.VITE_API_URL || "http://localhost:5000",
+        target: "http://localhost:5000", // Use localhost backend for development
         changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    outDir: "dist",
+    sourcemap: false,
+    minify: "terser",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          ui: ["@mantine/core", "@mantine/hooks"],
+        },
       },
     },
   },
