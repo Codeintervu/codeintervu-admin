@@ -34,8 +34,11 @@ npm run build
 3. Build command: `npm run build`
 4. Publish directory: `dist`
 5. **Set Environment Variable in Netlify:**
-   - Key: `VITE_API_URL`
-   - Value: `https://codeintervu-backend.onrender.com/api`
+   - Go to **Site settings** → **Environment variables**
+   - Add new variable:
+     - **Key**: `VITE_API_URL`
+     - **Value**: `https://codeintervu-backend.onrender.com/api`
+   - **Important**: Make sure to redeploy after adding the environment variable
 6. Deploy!
 
 ### 4. Deploy to Vercel
@@ -124,3 +127,12 @@ npm run build
 2. Check build output directory
 3. Verify environment variables are set
 4. Check deployment platform logs
+
+### 4. Troubleshooting API Issues
+
+If you see 404 errors for `/categories`:
+
+1. Check browser console for API logs
+2. Verify environment variable is set correctly
+3. Ensure the variable name is exactly `VITE_API_URL`
+4. Redeploy after setting environment variables

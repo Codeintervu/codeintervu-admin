@@ -4,6 +4,7 @@ import axios from "axios";
 const getApiBaseUrl = () => {
   // Use environment variable if available
   if (import.meta.env.VITE_API_URL) {
+    console.log("Using VITE_API_URL:", import.meta.env.VITE_API_URL);
     return import.meta.env.VITE_API_URL;
   }
 
@@ -12,15 +13,22 @@ const getApiBaseUrl = () => {
     window.location.hostname !== "localhost" &&
     window.location.hostname !== "127.0.0.1"
   ) {
-    return "https://codeintervu-backend.onrender.com/api";
+    const productionUrl = "https://codeintervu-backend.onrender.com/api";
+    console.log("Using production URL:", productionUrl);
+    return productionUrl;
   }
 
   // For development, use local backend
-  return "http://localhost:5000/api";
+  const devUrl = "http://localhost:5000/api";
+  console.log("Using development URL:", devUrl);
+  return devUrl;
 };
 
+const baseURL = getApiBaseUrl();
+console.log("Final API baseURL:", baseURL);
+
 const api = axios.create({
-  baseURL: getApiBaseUrl(),
+  baseURL: baseURL,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",
@@ -29,6 +37,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    console.log("API Request:", config.method?.toUpperCase(), config.url);
+    console.log("Full URL:", config.baseURL + config.url);
+
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
