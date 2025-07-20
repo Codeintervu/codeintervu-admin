@@ -2,38 +2,25 @@ import axios from "axios";
 
 // API base URL configuration
 const getApiBaseUrl = () => {
-  console.log("Environment check:");
-  console.log("- VITE_API_URL:", import.meta.env.VITE_API_URL);
-  console.log("- Hostname:", window.location.hostname);
-  console.log("- NODE_ENV:", import.meta.env.NODE_ENV);
+  // Check if we're in production (deployed on Netlify)
+  if (
+    window.location.hostname === "admincodeintervu.netlify.app" ||
+    window.location.hostname.includes("netlify.app")
+  ) {
+    return "https://codeintervu-backend.onrender.com/api";
+  }
 
-  // Use environment variable if available
+  // Use environment variable if available (for development)
   if (import.meta.env.VITE_API_URL) {
-    console.log("Using VITE_API_URL:", import.meta.env.VITE_API_URL);
     return import.meta.env.VITE_API_URL;
   }
 
-  // Check if we're in production (deployed)
-  if (
-    window.location.hostname !== "localhost" &&
-    window.location.hostname !== "127.0.0.1"
-  ) {
-    const productionUrl = "https://codeintervu-backend.onrender.com/api";
-    console.log("Using production URL:", productionUrl);
-    return productionUrl;
-  }
-
-  // For development, use local backend
-  const devUrl = "http://localhost:5000/api";
-  console.log("Using development URL:", devUrl);
-  return devUrl;
+  // Fallback to production URL
+  return "https://codeintervu-backend.onrender.com/api";
 };
 
-const baseURL = getApiBaseUrl();
-console.log("Final API baseURL:", baseURL);
-
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL: getApiBaseUrl(),
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",
@@ -42,9 +29,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    console.log("API Request:", config.method?.toUpperCase(), config.url);
-    console.log("Full URL:", config.baseURL + config.url);
-
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
