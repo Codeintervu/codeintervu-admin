@@ -11,6 +11,7 @@ import {
   FiSave,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import AdminNavbar from "../components/AdminNavbar";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -193,6 +194,7 @@ const Categories = () => {
 
   return (
     <div>
+      <AdminNavbar />
       <div className="flex justify-end mb-4">
         <Link
           to="/quiz"
@@ -389,18 +391,15 @@ const Categories = () => {
                     </div>
 
                     <div className="flex-grow">
-                      <Link
-                        to={`/categories/${category._id}/tutorials`}
-                        className="group"
-                      >
-                        <p className="font-bold text-lg text-eerie-black-2 group-hover:text-selective-yellow transition-colors">
+                      <div className="group">
+                        <p className="font-bold text-lg text-eerie-black-2">
                           {category.name}
                         </p>
                         <p className="text-sm text-gray-500">
                           {category.path} - Created:{" "}
                           {new Date(category.createdAt).toLocaleDateString()}
                         </p>
-                      </Link>
+                      </div>
                     </div>
                   </div>
 

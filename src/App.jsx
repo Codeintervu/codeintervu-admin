@@ -1,12 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AdminLogin from "./pages/AdminLogin";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
-import AdminLayout from "./AdminLayout"; // This will be created next
+import AdminLayout from "./AdminLayout";
+import Dashboard from "./pages/Dashboard";
 import Categories from "./pages/Categories";
-import ManageCategoryTutorials from "./pages/ManageCategoryTutorials";
-import ManageTutorialSections from "./pages/ManageTutorialSections";
 import QuizCategories from "./pages/QuizCategories";
 import QuizMCQs from "./pages/QuizMCQs";
+import Projects from "./pages/Projects";
+import AddProject from "./pages/AddProject";
+import EditProject from "./pages/EditProject";
+import ProjectDetails from "./pages/ProjectDetails";
 
 function App() {
   return (
@@ -21,19 +24,119 @@ function App() {
             </AdminProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="/categories" replace />} />
+          <Route index element={<Dashboard />} />
+
+          {/* Categories */}
           <Route path="categories" element={<Categories />} />
+
+          {/* Quiz Management */}
+          <Route path="quiz" element={<QuizCategories />} />
+          <Route path="quiz/:id" element={<QuizMCQs />} />
+
+          {/* Projects Management */}
+          <Route path="projects" element={<Projects />} />
+          <Route path="projects/add" element={<AddProject />} />
+          <Route path="projects/:id/edit" element={<EditProject />} />
+          <Route path="projects/:id" element={<ProjectDetails />} />
+
+          {/* Resume Builder Management */}
           <Route
-            path="categories/:categoryId/tutorials"
-            element={<ManageCategoryTutorials />}
+            path="resume-builder"
+            element={<div>Resume Templates - Coming Soon</div>}
           />
           <Route
-            path="tutorials/by-id/:tutorialId/sections"
-            element={<ManageTutorialSections />}
+            path="resume-builder/:id"
+            element={<div>Template Details - Coming Soon</div>}
           />
-          <Route path="/quiz" element={<QuizCategories />} />
-          <Route path="/quiz/:id" element={<QuizMCQs />} />
-          {/* The old /tutorials route can be removed or redirected if desired */}
+
+          {/* Interview Questions Management */}
+          <Route
+            path="interview-questions"
+            element={<div>Interview Questions - Coming Soon</div>}
+          />
+          <Route
+            path="interview-questions/:id"
+            element={<div>Question Details - Coming Soon</div>}
+          />
+
+          {/* Mock Interviews Management */}
+          <Route
+            path="mock-interviews"
+            element={<div>Mock Interviews - Coming Soon</div>}
+          />
+          <Route
+            path="mock-interviews/:id"
+            element={<div>Interview Details - Coming Soon</div>}
+          />
+
+          {/* Coding Problems Management */}
+          <Route
+            path="coding-problems"
+            element={<div>Coding Problems - Coming Soon</div>}
+          />
+          <Route
+            path="coding-problems/:id"
+            element={<div>Problem Details - Coming Soon</div>}
+          />
+
+          {/* Whiteboard Management */}
+          <Route
+            path="whiteboard"
+            element={<div>Whiteboard Sessions - Coming Soon</div>}
+          />
+          <Route
+            path="whiteboard/:id"
+            element={<div>Session Details - Coming Soon</div>}
+          />
+
+          {/* Blog Management */}
+          <Route path="blog" element={<div>Blog Posts - Coming Soon</div>} />
+          <Route
+            path="blog/:id"
+            element={<div>Post Details - Coming Soon</div>}
+          />
+
+          {/* Contact Messages */}
+          <Route
+            path="contact"
+            element={<div>Contact Messages - Coming Soon</div>}
+          />
+          <Route
+            path="contact/:id"
+            element={<div>Message Details - Coming Soon</div>}
+          />
+
+          {/* User Management */}
+          <Route
+            path="users"
+            element={<div>User Management - Coming Soon</div>}
+          />
+          <Route
+            path="users/:id"
+            element={<div>User Details - Coming Soon</div>}
+          />
+
+          {/* Payment Management */}
+          <Route
+            path="payments"
+            element={<div>Payment Management - Coming Soon</div>}
+          />
+          <Route
+            path="payments/:id"
+            element={<div>Payment Details - Coming Soon</div>}
+          />
+
+          {/* Analytics */}
+          <Route
+            path="analytics"
+            element={<div>Analytics Dashboard - Coming Soon</div>}
+          />
+
+          {/* Settings */}
+          <Route
+            path="settings"
+            element={<div>Site Settings - Coming Soon</div>}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

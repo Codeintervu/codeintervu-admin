@@ -1,26 +1,16 @@
 import axios from "axios";
 
-// API base URL configuration
+// API base URL configuration - Always use deployed backend
 const getApiBaseUrl = () => {
-  // Check if we're in production (deployed on Netlify)
-  if (
-    window.location.hostname === "admincodeintervu.netlify.app" ||
-    window.location.hostname.includes("netlify.app")
-  ) {
-    return "https://codeintervu-backend.onrender.com/api";
-  }
-
-  // Use environment variable if available (for development)
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
-  }
-
-  // Fallback to production URL
+  // Always use the deployed backend URL
   return "https://codeintervu-backend.onrender.com/api";
 };
 
+const baseURL = getApiBaseUrl();
+console.log("Admin API Base URL:", baseURL);
+
 const api = axios.create({
-  baseURL: getApiBaseUrl(),
+  baseURL: baseURL,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 // import axios from "axios";
 import api from "../utils/api";
+import AdminNavbar from "../components/AdminNavbar";
 import {
   FiPlus,
   FiTrash2,
@@ -127,6 +128,7 @@ const ManageCategoryTutorials = () => {
 
   return (
     <div>
+      <AdminNavbar />
       <Link
         to="/categories"
         className="inline-flex items-center gap-2 text-gray-600 hover:text-eerie-black-1 mb-6"

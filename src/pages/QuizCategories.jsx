@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import { Link } from "react-router-dom";
+import AdminNavbar from "../components/AdminNavbar";
 
 const QuizCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -30,8 +31,10 @@ const QuizCategories = () => {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
+    <div>
+      <AdminNavbar />
+      <div className="p-8">
+        <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Quiz Categories</h1>
         <div className="flex gap-4">
           <Link
@@ -61,6 +64,7 @@ const QuizCategories = () => {
             + Add Category
           </button>
         </div>
+      </div>
       </div>
       {showAdd && (
         <form className="mb-8 flex gap-4" onSubmit={handleAdd}>
