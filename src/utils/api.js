@@ -1,25 +1,7 @@
 import axios from "axios";
 
-// API base URL configuration - Prioritize localhost for development
-const getApiBaseUrl = () => {
-  // For local development, prioritize localhost:5000
-  if (
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
-  ) {
-    return "http://localhost:5000/api";
-  }
-
-  // Use environment variable if available (for development)
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
-  }
-
-  // For production, use deployed backend URL
-  return "https://codeintervu-backend.onrender.com/api";
-};
-
-const baseURL = getApiBaseUrl();
+// Direct backend URL configuration
+const baseURL = "https://codeintervu-backend.onrender.com/api";
 console.log("Admin API Base URL:", baseURL);
 
 const api = axios.create({
@@ -36,6 +18,11 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Log the full URL being requested
+    console.log("Making request to:", config.baseURL + config.url);
+    console.log("Full config:", config);
+
     return config;
   },
   (error) => Promise.reject(error)
