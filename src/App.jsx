@@ -10,6 +10,9 @@ import Projects from "./pages/Projects";
 import AddProject from "./pages/AddProject";
 import EditProject from "./pages/EditProject";
 import ProjectDetails from "./pages/ProjectDetails";
+import InterviewQuestions from "./pages/InterviewQuestions";
+import AddInterviewQuestion from "./pages/AddInterviewQuestion";
+import EditInterviewQuestion from "./pages/EditInterviewQuestion";
 
 function App() {
   return (
@@ -50,13 +53,14 @@ function App() {
           />
 
           {/* Interview Questions Management */}
+          <Route path="interview-questions" element={<InterviewQuestions />} />
           <Route
-            path="interview-questions"
-            element={<div>Interview Questions - Coming Soon</div>}
+            path="interview-questions/add"
+            element={<AddInterviewQuestion />}
           />
           <Route
-            path="interview-questions/:id"
-            element={<div>Question Details - Coming Soon</div>}
+            path="interview-questions/:id/edit"
+            element={<EditInterviewQuestion />}
           />
 
           {/* Mock Interviews Management */}

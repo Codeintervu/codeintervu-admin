@@ -1,8 +1,21 @@
 import axios from "axios";
 
-// API base URL configuration - Always use deployed backend
+// API base URL configuration - Prioritize localhost for development
 const getApiBaseUrl = () => {
-  // Always use the deployed backend URL
+  // For local development, prioritize localhost:5000
+  if (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  ) {
+    return "http://localhost:5000/api";
+  }
+
+  // Use environment variable if available (for development)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  // For production, use deployed backend URL
   return "https://codeintervu-backend.onrender.com/api";
 };
 
