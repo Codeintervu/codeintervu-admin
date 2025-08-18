@@ -27,22 +27,22 @@ const Dashboard = () => {
     fetchStats();
   }, []);
 
-    const fetchStats = async () => {
+  const fetchStats = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch categories count
       const categoriesResponse = await api.get("/categories");
       const categoriesCount = categoriesResponse.data.length;
-      
+
       // Fetch quiz categories count
       const quizCategoriesResponse = await api.get("/quiz/categories");
       const quizCategoriesCount = quizCategoriesResponse.data.length;
-      
+
       // Fetch projects stats
       const projectsResponse = await api.get("/projects/admin/stats");
       const projectsStats = projectsResponse.data.data;
-      
+
       const actualStats = [
         {
           name: "Categories",
@@ -72,13 +72,7 @@ const Dashboard = () => {
           color: "bg-green-500",
           href: "/projects",
         },
-        {
-          name: "Resume Templates",
-          value: "0", // Will be updated when resume builder is implemented
-          icon: FileText,
-          color: "bg-teal-500",
-          href: "/resume-builder",
-        },
+
         {
           name: "Interview Questions",
           value: "0", // Will be updated when interview questions are implemented
@@ -134,13 +128,7 @@ const Dashboard = () => {
       href: "/projects",
       color: "bg-orange-500",
     },
-    {
-      name: "Resume Builder",
-      description: "Manage resume templates",
-      icon: FileText,
-      href: "/resume-builder",
-      color: "bg-teal-500",
-    },
+
     {
       name: "Interview Questions",
       description: "Manage interview questions",

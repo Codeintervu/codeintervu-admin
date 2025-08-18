@@ -42,16 +42,6 @@ function App() {
           <Route path="projects/:id/edit" element={<EditProject />} />
           <Route path="projects/:id" element={<ProjectDetails />} />
 
-          {/* Resume Builder Management */}
-          <Route
-            path="resume-builder"
-            element={<div>Resume Templates - Coming Soon</div>}
-          />
-          <Route
-            path="resume-builder/:id"
-            element={<div>Template Details - Coming Soon</div>}
-          />
-
           {/* Interview Questions Management */}
           <Route path="interview-questions" element={<InterviewQuestions />} />
           <Route

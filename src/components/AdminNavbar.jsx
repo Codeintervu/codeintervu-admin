@@ -43,7 +43,6 @@ const AdminNavbar = () => {
     { name: "Categories", href: "/categories", icon: FolderOpen },
     { name: "Quiz", href: "/quiz", icon: HelpCircle },
     { name: "Projects", href: "/projects", icon: Code },
-    { name: "Resume Builder", href: "/resume-builder", icon: FileText },
     { name: "Interview Questions", href: "/interview-questions", icon: Search },
     { name: "Mock Interviews", href: "/mock-interviews", icon: Video },
     { name: "Coding Problems", href: "/coding-problems", icon: FileCode },
@@ -68,7 +67,6 @@ const AdminNavbar = () => {
     { name: "Categories", href: "/categories", icon: FolderOpen },
     { name: "Quiz", href: "/quiz", icon: HelpCircle },
     { name: "Projects", href: "/projects", icon: Code },
-    { name: "Resume Builder", href: "/resume-builder", icon: FileText },
   ];
 
   const managementItems = [
