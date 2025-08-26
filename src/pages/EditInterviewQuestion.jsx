@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import api from "../utils/api";
@@ -106,7 +106,17 @@ const EditInterviewQuestion = () => {
     try {
       setFetching(true);
       const response = await api.get(`/interview-questions/admin/${id}`);
-      setQuestion(response.data.data);
+      const questionData = response.data.data;
+
+      // Handle migration from old 'company' field to new 'companies' array
+      if (questionData.company && !questionData.companies) {
+        questionData.companies = [questionData.company];
+        delete questionData.company;
+      } else if (!questionData.companies) {
+        questionData.companies = [];
+      }
+
+      setQuestion(questionData);
     } catch (error) {
       console.error("Error fetching question:", error);
       toast.error("Failed to fetch question. Please try again.");
@@ -344,6 +354,7 @@ const EditInterviewQuestion = () => {
 
     try {
       await api.put(`/interview-questions/admin/${id}`, question);
+      toast.success("Question updated successfully!");
       navigate("/interview-questions");
     } catch (error) {
       console.error("Error updating question:", error);

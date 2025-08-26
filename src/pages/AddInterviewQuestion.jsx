@@ -28,6 +28,13 @@ const AddInterviewQuestion = () => {
     order: 0,
   });
 
+  // Ensure companies is always an array
+  useEffect(() => {
+    if (!question.companies) {
+      setQuestion((prev) => ({ ...prev, companies: [] }));
+    }
+  }, [question.companies]);
+
   const [newTag, setNewTag] = useState("");
   const [newCompany, setNewCompany] = useState("");
   const [categories, setCategories] = useState([]);
@@ -146,7 +153,9 @@ const AddInterviewQuestion = () => {
   const handleRemoveCompany = (companyToRemove) => {
     setQuestion((prev) => ({
       ...prev,
-      companies: prev.companies.filter((company) => company !== companyToRemove),
+      companies: prev.companies.filter(
+        (company) => company !== companyToRemove
+      ),
     }));
   };
 
@@ -653,7 +662,7 @@ const AddInterviewQuestion = () => {
                   placeholder="e.g., Google, Microsoft, Amazon..."
                   maxLength={100}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === "Enter") {
                       e.preventDefault();
                       handleAddCompany();
                     }
@@ -669,7 +678,7 @@ const AddInterviewQuestion = () => {
                   Add
                 </button>
               </div>
-              
+
               {/* Display added companies */}
               {question.companies.length > 0 && (
                 <div className="flex flex-wrap gap-2">
