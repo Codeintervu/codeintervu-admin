@@ -25,12 +25,13 @@ const EditInterviewQuestion = () => {
     answer: "",
     difficulty: "Medium",
     tags: [],
-    company: "",
+    companies: [],
     isActive: true,
     order: 0,
   });
 
   const [newTag, setNewTag] = useState("");
+  const [newCompany, setNewCompany] = useState("");
   const [categories, setCategories] = useState([]);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   const [newCategory, setNewCategory] = useState({
@@ -146,6 +147,25 @@ const EditInterviewQuestion = () => {
     setQuestion((prev) => ({
       ...prev,
       tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
+  };
+
+  const handleAddCompany = () => {
+    if (newCompany.trim() && !question.companies.includes(newCompany.trim())) {
+      setQuestion((prev) => ({
+        ...prev,
+        companies: [...prev.companies, newCompany.trim()],
+      }));
+      setNewCompany("");
+    }
+  };
+
+  const handleRemoveCompany = (companyToRemove) => {
+    setQuestion((prev) => ({
+      ...prev,
+      companies: prev.companies.filter(
+        (company) => company !== companyToRemove
+      ),
     }));
   };
 
@@ -675,22 +695,57 @@ const EditInterviewQuestion = () => {
               </div>
             </div>
 
-            {/* Company */}
+            {/* Companies */}
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Company
+                Companies
               </label>
-              <input
-                type="text"
-                value={question.company}
-                onChange={(e) => handleInputChange("company", e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-                placeholder="e.g., Google, Microsoft, Amazon..."
-                maxLength={100}
-              />
-              <p className="text-sm text-gray-500 mt-1">
-                {question.company.length}/100 characters
-              </p>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={newCompany}
+                  onChange={(e) => setNewCompany(e.target.value)}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  placeholder="e.g., Google, Microsoft, Amazon..."
+                  maxLength={100}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddCompany();
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={handleAddCompany}
+                  disabled={!newCompany.trim()}
+                  className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <FiPlus className="w-4 h-4" />
+                  Add
+                </button>
+              </div>
+
+              {/* Display added companies */}
+              {question.companies.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {question.companies.map((company, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-sm flex items-center gap-2"
+                    >
+                      {company}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveCompany(index)}
+                        className="text-teal-600 hover:text-teal-800"
+                      >
+                        <FiX className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

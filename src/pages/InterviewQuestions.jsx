@@ -385,10 +385,17 @@ const InterviewQuestions = () => {
                       >
                         {question.difficulty}
                       </span>
-                      {question.company && (
-                        <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                          {question.company}
-                        </span>
+                      {question.companies && question.companies.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {question.companies.map((company, index) => (
+                            <span
+                              key={index}
+                              className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
+                            >
+                              {company}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -521,10 +528,17 @@ const InterviewQuestions = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        {question.company ? (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                            {question.company}
-                          </span>
+                        {question.companies && question.companies.length > 0 ? (
+                          <div className="flex flex-wrap gap-1">
+                            {question.companies.map((company, index) => (
+                              <span
+                                key={index}
+                                className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
+                              >
+                                {company}
+                              </span>
+                            ))}
+                          </div>
                         ) : (
                           <span className="text-gray-400 text-xs">-</span>
                         )}

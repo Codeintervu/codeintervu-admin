@@ -2,6 +2,7 @@ import axios from "axios";
 
 // Direct backend URL configuration
 const baseURL = "https://codeintervu-backend.onrender.com/api";
+// const baseURL = "http://localhost:5000/api";
 console.log("Admin API Base URL:", baseURL);
 
 const api = axios.create({
