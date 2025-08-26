@@ -25,6 +25,7 @@ const EditInterviewQuestion = () => {
     answer: "",
     difficulty: "Medium",
     tags: [],
+    company: "",
     isActive: true,
     order: 0,
   });
@@ -672,6 +673,24 @@ const EditInterviewQuestion = () => {
                   <FiPlus className="w-4 h-4" />
                 </button>
               </div>
+            </div>
+
+            {/* Company */}
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Company
+              </label>
+              <input
+                type="text"
+                value={question.company}
+                onChange={(e) => handleInputChange("company", e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                placeholder="e.g., Google, Microsoft, Amazon..."
+                maxLength={100}
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                {question.company.length}/100 characters
+              </p>
             </div>
           </div>
 

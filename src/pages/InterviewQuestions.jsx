@@ -370,20 +370,27 @@ const InterviewQuestions = () => {
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(
-                        question.category
-                      )}`}
-                    >
-                      {question.categoryName}
-                    </span>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
-                        question.difficulty
-                      )}`}
-                    >
-                      {question.difficulty}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(
+                          question.category
+                        )}`}
+                      >
+                        {question.categoryName}
+                      </span>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
+                          question.difficulty
+                        )}`}
+                      >
+                        {question.difficulty}
+                      </span>
+                      {question.company && (
+                        <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                          {question.company}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
@@ -462,6 +469,9 @@ const InterviewQuestions = () => {
                       Difficulty
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Company
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -509,6 +519,15 @@ const InterviewQuestions = () => {
                         >
                           {question.difficulty}
                         </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        {question.company ? (
+                          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                            {question.company}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 text-xs">-</span>
+                        )}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
