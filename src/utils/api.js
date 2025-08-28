@@ -1,9 +1,13 @@
 import axios from "axios";
 
-// Direct backend URL configuration
-const baseURL =
-  import.meta.env.VITE_API_URL ||
-  "https://codeintervu-backend.onrender.com/api";
+// Direct backend URL configuration with normalization to ensure "/api" suffix
+const rawBaseURL = "https://codeintervu-backend.onrender.com/api";
+
+const baseURL = (() => {
+  const trimmed = (rawBaseURL || "").replace(/\/+$/, "");
+  if (!trimmed) return "/api";
+  return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+})();
 
 const api = axios.create({
   baseURL: baseURL,
