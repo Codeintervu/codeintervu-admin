@@ -24,12 +24,32 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStats();
+    // Only fetch stats if we have an admin token
+    const adminToken = localStorage.getItem("adminToken");
+    if (adminToken) {
+      console.log("Dashboard mounted with admin token, fetching stats...");
+      fetchStats();
+    } else {
+      console.log(
+        "Dashboard mounted without admin token, skipping stats fetch"
+      );
+      setLoading(false);
+    }
   }, []);
 
   const fetchStats = async () => {
     try {
       setLoading(true);
+
+      // Check if admin token exists before making API calls
+      const adminToken = localStorage.getItem("adminToken");
+      if (!adminToken) {
+        console.log("No admin token found, skipping API calls");
+        setStats([]);
+        return;
+      }
+
+      console.log("Admin token found, making API calls...");
 
       // Fetch categories count
       const categoriesResponse = await api.get("/categories");
@@ -42,6 +62,10 @@ const Dashboard = () => {
       // Fetch projects stats
       const projectsResponse = await api.get("/projects/admin/stats");
       const projectsStats = projectsResponse.data.data;
+
+      // Fetch user stats
+      const userStatsResponse = await api.get("/admin/stats");
+      const userStats = userStatsResponse.data;
 
       const actualStats = [
         {
@@ -71,6 +95,20 @@ const Dashboard = () => {
           icon: Code,
           color: "bg-green-500",
           href: "/projects",
+        },
+        {
+          name: "Total Users",
+          value: userStats.totalUsers.toString(),
+          icon: Users,
+          color: "bg-teal-500",
+          href: "/users",
+        },
+        {
+          name: "New Users (Today)",
+          value: userStats.todayUsers.toString(),
+          icon: Users,
+          color: "bg-emerald-500",
+          href: "/users",
         },
 
         {
@@ -142,6 +180,13 @@ const Dashboard = () => {
       icon: Video,
       href: "/mock-interviews",
       color: "bg-indigo-500",
+    },
+    {
+      name: "Manage Users",
+      description: "View and manage user accounts",
+      icon: Users,
+      href: "/users",
+      color: "bg-teal-500",
     },
   ];
 

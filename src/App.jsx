@@ -13,6 +13,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import InterviewQuestions from "./pages/InterviewQuestions";
 import AddInterviewQuestion from "./pages/AddInterviewQuestion";
 import EditInterviewQuestion from "./pages/EditInterviewQuestion";
+import Users from "./pages/Users";
 
 function App() {
   return (
@@ -101,10 +102,7 @@ function App() {
           />
 
           {/* User Management */}
-          <Route
-            path="users"
-            element={<div>User Management - Coming Soon</div>}
-          />
+          <Route path="users" element={<Users />} />
           <Route
             path="users/:id"
             element={<div>User Details - Coming Soon</div>}

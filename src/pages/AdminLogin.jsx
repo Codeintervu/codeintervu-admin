@@ -11,16 +11,14 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
+
     try {
-      console.log(
-        "Attempting login with API URL:",
-        import.meta.env.VITE_API_URL
-      );
       const res = await api.post("/admin/login", { username, password });
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("adminToken", res.data.token);
       navigate("/");
     } catch (err) {
       console.error("Login error:", err);
+      console.error("Error response:", err.response?.data);
       setError("Invalid username or password");
     }
   };
