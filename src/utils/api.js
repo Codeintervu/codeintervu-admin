@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Direct backend URL configuration with normalization to ensure "/api" suffix
+// Direct backend URL (dev): always use local API
 const rawBaseURL = "https://codeintervu-backend.onrender.com/api";
 
 const baseURL = (() => {
@@ -38,9 +38,16 @@ api.interceptors.response.use(
 
     // Handle specific error cases
     if (error.response?.status === 401) {
-      // Unauthorized - clear token and redirect to login
-      localStorage.removeItem("adminToken");
-      window.location.href = "/login";
+      // Unauthorized - clear token and gently redirect after notifying
+      try {
+        localStorage.removeItem("adminToken");
+      } catch {}
+      if (window.location.pathname !== "/login") {
+        // Give the UI a moment to show the error state before redirecting
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 3300);
+      }
     }
 
     return Promise.reject(error);
