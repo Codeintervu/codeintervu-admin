@@ -1,7 +1,9 @@
 import axios from "axios";
 
-// Direct backend URL (dev): always use local API
-const rawBaseURL = "https://codeintervu-backend.onrender.com/api";
+// Backend URL configuration
+const rawBaseURL =
+  import.meta.env.VITE_API_URL ||
+  "https://codeintervu-backend.onrender.com/api";
 
 const baseURL = (() => {
   const trimmed = (rawBaseURL || "").replace(/\/+$/, "");

@@ -14,6 +14,8 @@ import InterviewQuestions from "./pages/InterviewQuestions";
 import AddInterviewQuestion from "./pages/AddInterviewQuestion";
 import EditInterviewQuestion from "./pages/EditInterviewQuestion";
 import Users from "./pages/Users";
+import ManageCategoryTutorials from "./pages/ManageCategoryTutorials";
+import ManageTutorialSections from "./pages/ManageTutorialSections";
 
 function App() {
   return (
@@ -32,6 +34,14 @@ function App() {
 
           {/* Categories */}
           <Route path="categories" element={<Categories />} />
+          <Route
+            path="manage-category-tutorials/:categoryId"
+            element={<ManageCategoryTutorials />}
+          />
+          <Route
+            path="tutorials/by-id/:tutorialId/sections"
+            element={<ManageTutorialSections />}
+          />
 
           {/* Quiz Management */}
           <Route path="quiz" element={<QuizCategories />} />

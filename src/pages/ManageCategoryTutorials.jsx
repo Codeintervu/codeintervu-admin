@@ -10,6 +10,8 @@ import {
   FiAlertTriangle,
   FiCheckCircle,
   FiArrowLeft,
+  FiImage,
+  FiUpload,
 } from "react-icons/fi";
 
 const ManageCategoryTutorials = () => {
@@ -23,6 +25,21 @@ const ManageCategoryTutorials = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(null);
+
+  // Ad management state
+  const [adImage, setAdImage] = useState(null);
+  const [adImageUrl, setAdImageUrl] = useState("");
+  const [isUploadingAd, setIsUploadingAd] = useState(false);
+  const [adUploadSuccess, setAdUploadSuccess] = useState(null);
+  const [adUploadError, setAdUploadError] = useState(null);
+
+  // Top banner ad management state
+  const [topBannerAdImage, setTopBannerAdImage] = useState(null);
+  const [topBannerAdImageUrl, setTopBannerAdImageUrl] = useState("");
+  const [isUploadingTopBannerAd, setIsUploadingTopBannerAd] = useState(false);
+  const [topBannerAdUploadSuccess, setTopBannerAdUploadSuccess] =
+    useState(null);
+  const [topBannerAdUploadError, setTopBannerAdUploadError] = useState(null);
 
   const fetchTutorials = async () => {
     try {
@@ -47,6 +64,30 @@ const ManageCategoryTutorials = () => {
       // );
       const tutorialsRes = await api.get(`/tutorials?category=${categoryId}`);
       setTutorials(tutorialsRes.data);
+
+      // Fetch existing ad image for this category
+      try {
+        const adRes = await api.get(`/categories/${categoryId}/ad`);
+        if (adRes.data && adRes.data.adImageUrl) {
+          setAdImageUrl(adRes.data.adImageUrl);
+        }
+      } catch (adErr) {
+        // No ad image exists yet, which is fine
+        console.log("No ad image found for this category");
+      }
+
+      // Fetch existing top banner ad image for this category
+      try {
+        const topBannerAdRes = await api.get(
+          `/categories/${categoryId}/top-banner-ad`
+        );
+        if (topBannerAdRes.data && topBannerAdRes.data.adImageUrl) {
+          setTopBannerAdImageUrl(topBannerAdRes.data.adImageUrl);
+        }
+      } catch (topBannerAdErr) {
+        // No top banner ad image exists yet, which is fine
+        console.log("No top banner ad image found for this category");
+      }
 
       setLoading(false);
     } catch (err) {
@@ -95,6 +136,51 @@ const ManageCategoryTutorials = () => {
     }
   };
 
+  const handleTopBannerAdUpload = async (e) => {
+    e.preventDefault();
+    if (!topBannerAdImage) {
+      setTopBannerAdUploadError("Please select an image to upload.");
+      return;
+    }
+
+    setIsUploadingTopBannerAd(true);
+    setTopBannerAdUploadError(null);
+    setTopBannerAdUploadSuccess(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("adImage", topBannerAdImage);
+
+      const response = await api.post(
+        `/categories/${categoryId}/top-banner-ad`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setTopBannerAdImageUrl(response.data.adImageUrl);
+      setTopBannerAdImage(null);
+      setTopBannerAdUploadSuccess("Top banner ad image uploaded successfully!");
+
+      // Clear the file input
+      const fileInput = document.getElementById("topBannerAdImageInput");
+      if (fileInput) fileInput.value = "";
+    } catch (err) {
+      setTopBannerAdUploadError(
+        err.response?.data?.message || "Failed to upload top banner ad image."
+      );
+    } finally {
+      setIsUploadingTopBannerAd(false);
+      setTimeout(() => {
+        setTopBannerAdUploadSuccess(null);
+        setTopBannerAdUploadError(null);
+      }, 5000);
+    }
+  };
+
   const handleDelete = async (tutorialId) => {
     if (window.confirm("Are you sure you want to delete this tutorial?")) {
       try {
@@ -105,6 +191,113 @@ const ManageCategoryTutorials = () => {
         fetchTutorials(); // Refresh the list
       } catch (err) {
         alert("Failed to delete tutorial.");
+      }
+    }
+  };
+
+  // Ad image upload handlers
+  const handleAdImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type.startsWith("image/")) {
+        setAdImage(file);
+        setAdUploadError(null);
+      } else {
+        setAdUploadError("Please select a valid image file.");
+        setAdImage(null);
+      }
+    }
+  };
+
+  // Top banner ad image upload handlers
+  const handleTopBannerAdImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type.startsWith("image/")) {
+        setTopBannerAdImage(file);
+        setTopBannerAdUploadError(null);
+      } else {
+        setTopBannerAdUploadError("Please select a valid image file.");
+        setTopBannerAdImage(null);
+      }
+    }
+  };
+
+  const handleAdUpload = async (e) => {
+    e.preventDefault();
+    if (!adImage) {
+      setAdUploadError("Please select an image to upload.");
+      return;
+    }
+
+    setIsUploadingAd(true);
+    setAdUploadError(null);
+    setAdUploadSuccess(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("adImage", adImage);
+
+      const response = await api.post(
+        `/categories/${categoryId}/ad`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setAdImageUrl(response.data.adImageUrl);
+      setAdImage(null);
+      setAdUploadSuccess("Ad image uploaded successfully!");
+
+      // Clear the file input
+      const fileInput = document.getElementById("adImageInput");
+      if (fileInput) fileInput.value = "";
+    } catch (err) {
+      setAdUploadError(
+        err.response?.data?.message || "Failed to upload ad image."
+      );
+    } finally {
+      setIsUploadingAd(false);
+      setTimeout(() => {
+        setAdUploadSuccess(null);
+        setAdUploadError(null);
+      }, 5000);
+    }
+  };
+
+  const handleRemoveAd = async () => {
+    if (window.confirm("Are you sure you want to remove the ad image?")) {
+      try {
+        await api.delete(`/categories/${categoryId}/ad`);
+        setAdImageUrl("");
+        setAdUploadSuccess("Ad image removed successfully!");
+        setTimeout(() => {
+          setAdUploadSuccess(null);
+        }, 5000);
+      } catch (err) {
+        setAdUploadError("Failed to remove ad image.");
+      }
+    }
+  };
+
+  const handleRemoveTopBannerAd = async () => {
+    if (
+      window.confirm("Are you sure you want to remove the top banner ad image?")
+    ) {
+      try {
+        await api.delete(`/categories/${categoryId}/top-banner-ad`);
+        setTopBannerAdImageUrl("");
+        setTopBannerAdUploadSuccess(
+          "Top banner ad image removed successfully!"
+        );
+        setTimeout(() => {
+          setTopBannerAdUploadSuccess(null);
+        }, 5000);
+      } catch (err) {
+        setTopBannerAdUploadError("Failed to remove top banner ad image.");
       }
     }
   };
@@ -191,6 +384,180 @@ const ManageCategoryTutorials = () => {
               <div className="flex items-center gap-2 text-red-600">
                 <FiAlertTriangle />
                 <span>{submitError}</span>
+              </div>
+            )}
+          </div>
+        </form>
+      </div>
+
+      {/* Ad Management Section */}
+      <div className="bg-white p-8 rounded-xl shadow-md mb-8">
+        <h2 className="text-2xl font-bold text-eerie-black-2 mb-6">
+          Right Side Ad Management
+        </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          Upload an image to display as an advertisement on the right side of
+          all tutorial pages in this category.
+        </p>
+
+        {/* Current Ad Display */}
+        {adImageUrl && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-eerie-black-2 mb-3">
+              Current Ad Image:
+            </h3>
+            <div className="flex items-center gap-4">
+              <img
+                src={adImageUrl}
+                alt="Current ad"
+                className="w-32 h-32 object-cover rounded-lg border"
+              />
+              <button
+                onClick={handleRemoveAd}
+                className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
+                aria-label="Remove ad image"
+              >
+                <FiTrash2 size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Upload New Ad */}
+        <form onSubmit={handleAdUpload} className="space-y-4">
+          <div>
+            <label
+              htmlFor="adImageInput"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Upload Ad Image
+            </label>
+            <input
+              type="file"
+              id="adImageInput"
+              accept="image/*"
+              onChange={handleAdImageChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-selective-yellow focus:border-selective-yellow"
+            />
+            <p className="text-xs text-gray-500 mt-2">
+              Recommended size: 300x600px or similar aspect ratio for best
+              display on the right sidebar.
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+              disabled={isUploadingAd || !adImage}
+              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 font-bold transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isUploadingAd ? (
+                <FiLoader className="animate-spin" />
+              ) : (
+                <FiUpload />
+              )}
+              <span>{isUploadingAd ? "Uploading..." : "Upload Ad Image"}</span>
+            </button>
+
+            {adUploadSuccess && (
+              <div className="flex items-center gap-2 text-green-600">
+                <FiCheckCircle />
+                <span>{adUploadSuccess}</span>
+              </div>
+            )}
+            {adUploadError && (
+              <div className="flex items-center gap-2 text-red-600">
+                <FiAlertTriangle />
+                <span>{adUploadError}</span>
+              </div>
+            )}
+          </div>
+        </form>
+      </div>
+
+      {/* Top Banner Ad Management Section */}
+      <div className="bg-white p-8 rounded-xl shadow-md mb-8">
+        <h2 className="text-2xl font-bold text-eerie-black-2 mb-6">
+          Top Banner Ad Management
+        </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          Upload an image to display as a horizontal banner advertisement at the
+          top of all tutorial pages in this category.
+        </p>
+
+        {/* Current Top Banner Ad Display */}
+        {topBannerAdImageUrl && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h3 className="text-lg font-semibold text-eerie-black-2 mb-3">
+              Current Top Banner Ad Image:
+            </h3>
+            <div className="flex items-center gap-4">
+              <img
+                src={topBannerAdImageUrl}
+                alt="Current top banner ad"
+                className="w-64 h-16 object-cover rounded-lg border"
+              />
+              <button
+                onClick={handleRemoveTopBannerAd}
+                className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
+                aria-label="Remove top banner ad image"
+              >
+                <FiTrash2 size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Upload New Top Banner Ad */}
+        <form onSubmit={handleTopBannerAdUpload} className="space-y-4">
+          <div>
+            <label
+              htmlFor="topBannerAdImageInput"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Upload Top Banner Ad Image
+            </label>
+            <input
+              type="file"
+              id="topBannerAdImageInput"
+              accept="image/*"
+              onChange={handleTopBannerAdImageChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-selective-yellow focus:border-selective-yellow"
+            />
+            <p className="text-xs text-gray-500 mt-2">
+              Recommended size: 1200x120px for desktop, full width x 100px for
+              mobile.
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+              disabled={isUploadingTopBannerAd || !topBannerAdImage}
+              className="flex items-center gap-2 bg-green-600 text-white px-5 py-3 rounded-lg hover:bg-green-700 font-bold transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isUploadingTopBannerAd ? (
+                <FiLoader className="animate-spin" />
+              ) : (
+                <FiUpload />
+              )}
+              <span>
+                {isUploadingTopBannerAd
+                  ? "Uploading..."
+                  : "Upload Top Banner Ad Image"}
+              </span>
+            </button>
+
+            {topBannerAdUploadSuccess && (
+              <div className="flex items-center gap-2 text-green-600">
+                <FiCheckCircle />
+                <span>{topBannerAdUploadSuccess}</span>
+              </div>
+            )}
+            {topBannerAdUploadError && (
+              <div className="flex items-center gap-2 text-red-600">
+                <FiAlertTriangle />
+                <span>{topBannerAdUploadError}</span>
               </div>
             )}
           </div>

@@ -7,13 +7,14 @@ import {
   FiLoader,
   FiAlertTriangle,
   FiCheckCircle,
-  FiMove,
   FiSave,
+  FiEdit,
 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 
 const Categories = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -121,6 +122,10 @@ const Categories = () => {
     }
   };
 
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/manage-category-tutorials/${categoryId}`);
+  };
+
   // Handle order input change for individual categories
   const handleOrderChange = (categoryId, newOrder) => {
     setCategories((prevCategories) =>
@@ -157,39 +162,6 @@ const Categories = () => {
         setSubmitError(null);
       }, 5000);
     }
-  };
-
-  // Drag and drop functionality
-  const handleDragStart = (e, index) => {
-    e.dataTransfer.setData("text/plain", index);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e, dropIndex) => {
-    e.preventDefault();
-    const dragIndex = parseInt(e.dataTransfer.getData("text/plain"));
-
-    if (dragIndex === dropIndex) return;
-
-    const newCategories = [...categories];
-    const draggedItem = newCategories[dragIndex];
-
-    // Remove the dragged item
-    newCategories.splice(dragIndex, 1);
-
-    // Insert at the new position
-    newCategories.splice(dropIndex, 0, draggedItem);
-
-    // Update order numbers
-    const updatedCategories = newCategories.map((cat, index) => ({
-      ...cat,
-      order: index + 1,
-    }));
-
-    setCategories(updatedCategories);
   };
 
   return (
@@ -339,9 +311,15 @@ const Categories = () => {
       {/* Categories List */}
       <div className="bg-white p-8 rounded-xl shadow-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-eerie-black-2">
-            Existing Categories
-          </h2>
+          <div>
+            <h2 className="text-2xl font-bold text-eerie-black-2">
+              Existing Categories
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Click on a category name or the edit icon to manage its tutorials.
+              Use the Order field to change position.
+            </p>
+          </div>
           <button
             onClick={handleUpdateOrder}
             disabled={isUpdatingOrder}
@@ -378,21 +356,19 @@ const Categories = () => {
               categories.map((category, index) => (
                 <div
                   key={category._id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDragOver={handleDragOver}
-                  onDrop={(e) => handleDrop(e, index)}
-                  className="flex justify-between items-center bg-gray-50 p-4 rounded-lg transition-shadow hover:shadow-md cursor-move border-l-4 border-transparent hover:border-selective-yellow"
+                  className="flex justify-between items-center bg-gray-50 p-4 rounded-lg transition-shadow hover:shadow-md border-l-4 border-transparent hover:border-selective-yellow"
                 >
                   <div className="flex items-center gap-4 flex-grow">
                     <div className="flex items-center gap-2 text-gray-400">
-                      <FiMove size={16} />
                       <span className="text-sm font-mono">{index + 1}</span>
                     </div>
 
-                    <div className="flex-grow">
+                    <div
+                      className="flex-grow cursor-pointer"
+                      onClick={() => handleCategoryClick(category._id)}
+                    >
                       <div className="group">
-                        <p className="font-bold text-lg text-eerie-black-2">
+                        <p className="font-bold text-lg text-eerie-black-2 group-hover:text-selective-yellow transition-colors">
                           {category.name}
                         </p>
                         <p className="text-sm text-gray-500">
@@ -418,6 +394,15 @@ const Categories = () => {
                         min="0"
                       />
                     </div>
+
+                    <button
+                      onClick={() => handleCategoryClick(category._id)}
+                      className="text-blue-500 hover:text-blue-700 p-2 rounded-full hover:bg-blue-100 transition-colors"
+                      aria-label="Manage tutorials for this category"
+                      title="Manage tutorials"
+                    >
+                      <FiEdit size={20} />
+                    </button>
 
                     <button
                       onClick={() => handleDelete(category._id)}
