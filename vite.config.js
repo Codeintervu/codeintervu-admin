@@ -1,10 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
+  css: {
+    postcss: "./postcss.config.js",
+  },
   server: {
     port: 4000, // We can assign a specific port for the admin app
   },
@@ -17,6 +19,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ["react", "react-dom"],
           ui: ["@mantine/core", "@mantine/hooks"],
+
           icons: ["lucide-react", "react-icons"],
         },
       },

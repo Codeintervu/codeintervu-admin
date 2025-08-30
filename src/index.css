@@ -1,8 +1,5 @@
-/*
-  This file is intentionally left blank.
-  The Tailwind Play CDN is being used in index.html to provide styles.
-*/
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles can go here */
