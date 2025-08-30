@@ -17,8 +17,16 @@ export default defineConfig({
         manualChunks: {
           vendor: ["react", "react-dom"],
           ui: ["@mantine/core", "@mantine/hooks"],
+          icons: ["lucide-react", "react-icons"],
         },
       },
     },
+    // Optimize for production
+    target: "es2015",
+    assetsInlineLimit: 4096,
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ["react", "react-dom", "axios"],
   },
 });

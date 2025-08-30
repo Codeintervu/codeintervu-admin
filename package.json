@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite preview --port 4000",
-    "deploy": "npm run build"
+    "deploy": "npm run build",
+    "build:prod": "vite build --mode production",
+    "serve": "vite preview --port 4000 --host"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

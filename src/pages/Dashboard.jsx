@@ -17,6 +17,7 @@ import {
   Settings,
 } from "lucide-react";
 import AdminNavbar from "../components/AdminNavbar";
+import AdminDebug from "../components/AdminDebug";
 import api from "../utils/api";
 
 const Dashboard = () => {
@@ -276,6 +277,14 @@ const Dashboard = () => {
               );
             })}
           </div>
+        </div>
+
+        {/* Debug Panel */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            Debug Panel
+          </h2>
+          <AdminDebug />
         </div>
 
         {/* Recent Activity - Will be implemented with real data */}

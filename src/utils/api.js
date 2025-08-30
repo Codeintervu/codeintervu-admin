@@ -1,9 +1,7 @@
 import axios from "axios";
 
 // Backend URL configuration
-const rawBaseURL =
-  import.meta.env.VITE_API_URL ||
-  "https://codeintervu-backend.onrender.com/api";
+const rawBaseURL = "https://codeintervu-backend.onrender.com/api";
 
 const baseURL = (() => {
   const trimmed = (rawBaseURL || "").replace(/\/+$/, "");
@@ -36,7 +34,14 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error("Admin API Error:", error);
+    console.error("Admin API Error:", {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      url: error.config?.url,
+      method: error.config?.method,
+      headers: error.config?.headers,
+    });
 
     // Handle specific error cases
     if (error.response?.status === 401) {

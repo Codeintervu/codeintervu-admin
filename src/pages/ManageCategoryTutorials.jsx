@@ -73,7 +73,15 @@ const ManageCategoryTutorials = () => {
         }
       } catch (adErr) {
         // No ad image exists yet, which is fine
-        console.log("No ad image found for this category");
+        if (adErr.response?.status === 404) {
+          console.log("No ad image found for this category");
+        } else {
+          console.error(
+            "Error fetching ad image:",
+            adErr.response?.status,
+            adErr.response?.data
+          );
+        }
       }
 
       // Fetch existing top banner ad image for this category
@@ -86,7 +94,15 @@ const ManageCategoryTutorials = () => {
         }
       } catch (topBannerAdErr) {
         // No top banner ad image exists yet, which is fine
-        console.log("No top banner ad image found for this category");
+        if (topBannerAdErr.response?.status === 404) {
+          console.log("No top banner ad image found for this category");
+        } else {
+          console.error(
+            "Error fetching top banner ad image:",
+            topBannerAdErr.response?.status,
+            topBannerAdErr.response?.data
+          );
+        }
       }
 
       setLoading(false);
@@ -169,8 +185,16 @@ const ManageCategoryTutorials = () => {
       const fileInput = document.getElementById("topBannerAdImageInput");
       if (fileInput) fileInput.value = "";
     } catch (err) {
+      console.error(
+        "Top banner ad upload error:",
+        err.response?.status,
+        err.response?.data
+      );
       setTopBannerAdUploadError(
-        err.response?.data?.message || "Failed to upload top banner ad image."
+        err.response?.data?.message ||
+          `Failed to upload top banner ad image. (${
+            err.response?.status || "Unknown error"
+          })`
       );
     } finally {
       setIsUploadingTopBannerAd(false);
@@ -256,8 +280,16 @@ const ManageCategoryTutorials = () => {
       const fileInput = document.getElementById("adImageInput");
       if (fileInput) fileInput.value = "";
     } catch (err) {
+      console.error(
+        "Ad upload error:",
+        err.response?.status,
+        err.response?.data
+      );
       setAdUploadError(
-        err.response?.data?.message || "Failed to upload ad image."
+        err.response?.data?.message ||
+          `Failed to upload ad image. (${
+            err.response?.status || "Unknown error"
+          })`
       );
     } finally {
       setIsUploadingAd(false);
