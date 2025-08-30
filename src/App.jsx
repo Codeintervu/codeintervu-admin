@@ -16,6 +16,7 @@ import EditInterviewQuestion from "./pages/EditInterviewQuestion";
 import Users from "./pages/Users";
 import ManageCategoryTutorials from "./pages/ManageCategoryTutorials";
 import ManageTutorialSections from "./pages/ManageTutorialSections";
+import Analytics from "./pages/Analytics";
 
 function App() {
   return (
@@ -129,10 +130,7 @@ function App() {
           />
 
           {/* Analytics */}
-          <Route
-            path="analytics"
-            element={<div>Analytics Dashboard - Coming Soon</div>}
-          />
+          <Route path="analytics" element={<Analytics />} />
 
           {/* Settings */}
           <Route

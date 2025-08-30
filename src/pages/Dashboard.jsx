@@ -16,7 +16,7 @@ import {
   BarChart3,
   Settings,
 } from "lucide-react";
-import AdminNavbar from "../components/AdminNavbar";
+
 import AdminDebug from "../components/AdminDebug";
 import api from "../utils/api";
 
@@ -193,7 +193,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <AdminNavbar />
       <div className="space-y-6">
         {/* Header */}
         <div className="bg-white rounded-lg shadow p-6">

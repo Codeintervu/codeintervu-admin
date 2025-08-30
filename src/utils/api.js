@@ -2,6 +2,7 @@ import axios from "axios";
 
 // Backend URL configuration
 const rawBaseURL = "https://codeintervu-backend.onrender.com/api";
+// const rawBaseURL = "http://localhost:5000/api";
 
 const baseURL = (() => {
   const trimmed = (rawBaseURL || "").replace(/\/+$/, "");
