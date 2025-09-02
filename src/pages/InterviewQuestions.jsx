@@ -49,9 +49,9 @@ const InterviewQuestions = () => {
 
   const difficulties = [
     { value: "all", label: "All Difficulties" },
-    { value: "Easy", label: "Easy" },
-    { value: "Medium", label: "Medium" },
-    { value: "Hard", label: "Hard" },
+    { value: "Beginner", label: "Beginner" },
+    { value: "Intermediate", label: "Intermediate" },
+    { value: "Expert", label: "Expert" },
   ];
 
   const statusOptions = [
@@ -139,12 +139,16 @@ const InterviewQuestions = () => {
   };
 
   const getDifficultyColor = (difficulty) => {
+    // Backward-compatible display colors
+    if (difficulty === "Easy") difficulty = "Beginner";
+    if (difficulty === "Medium") difficulty = "Intermediate";
+    if (difficulty === "Hard") difficulty = "Expert";
     switch (difficulty) {
-      case "Easy":
+      case "Beginner":
         return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
-      case "Medium":
+      case "Intermediate":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
-      case "Hard":
+      case "Expert":
         return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";

@@ -23,7 +23,7 @@ const EditInterviewQuestion = () => {
     category: "",
     question: "",
     answer: "",
-    difficulty: "Medium",
+    difficulty: "Intermediate",
     tags: [],
     companies: [],
     isActive: true,
@@ -47,9 +47,9 @@ const EditInterviewQuestion = () => {
   const categoryDropdownRef = useRef(null);
 
   const difficulties = [
-    { value: "Easy", label: "Easy" },
-    { value: "Medium", label: "Medium" },
-    { value: "Hard", label: "Hard" },
+    { value: "Beginner", label: "Beginner" },
+    { value: "Intermediate", label: "Intermediate" },
+    { value: "Expert", label: "Expert" },
   ];
 
   useEffect(() => {
